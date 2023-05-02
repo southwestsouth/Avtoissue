@@ -38,7 +38,7 @@ issues = jira.search_issues(JQL_QUERY)
 
 # Connect to the database
 conn = psycopg2.connect(
-    host="10.1.155.6",
+    host="host",
     port="port",
     database="database",
     user="user",
