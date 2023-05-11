@@ -1,0 +1,133 @@
+with super_table as (select (case
+                                 when status_process_type_code != 55 and status_process_type_code !=56 and edf_status_code != 98 and edf_status_code != 90 and fss_status_code is null then 'Cancellation_in_55_and_98'
+                                 when status_process_type_code != 55 and status_process_type_code =56 and edf_status_code != 98 and edf_status_code != 90 and fss_status_code is null then 'Cancellation_in_98'
+                                 when status_request_type_code = 60 and status_process_type_code = 55 and fss_status_code = 90 and edf_status_code = 95 then 'Canceled'
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code = 10 and edf_status_code = 95 and df_blank_number is not null then 'Cancellation_in_55'
+                                 when status_process_type_code = 55 and edf_status_code != 98 and edf_status_code != 90 and fss_status_code is null then 'Cancellation_in_98'
+                                 when status_process_type_code = 53 and edf_status_code = 90 and fss_status_code is null then 'Cancellation_in_55'
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code is null and df_blank_status_type_code is null then  'Cancellation_in_55'
+                                 when status_process_type_code = 55 and edf_status_code != 90 and edf_status_code = 98 and fss_status_code is null then 'Canceled'
+                                 when status_process_type_code = 55 and edf_status_code = 90 and fss_status_code is null then 'Canceled'
+                                 when status_process_type_code = 55 and edf_status_code is null and fss_status_code is null then 'Canceled'
+                                 when status_process_type_code = 56 and edf_status_code = 90 and fss_status_code is null then 'Archived'
+                                 when status_process_type_code = 56 and edf_status_code is null and fss_status_code is null then 'Archived'
+                                 when status_process_type_code = 56 and edf_status_code = 98 and fss_status_code is null then 'Archived'
+                                 when status_request_type_code = 63 and status_process_type_code = 55 and fss_status_code = 10 and edf_status_code = 98 then 'Canceled'
+                                 when status_request_type_code = 60 and status_process_type_code = 50 and fss_status_code is null then 'Cancellation_in_55'
+                                 when status_request_type_code = 60 and status_process_type_code = 51 and fss_status_code is null then 'Cancellation_in_55'
+                                 when status_request_type_code = 60 and status_process_type_code = 50 and fss_status_code = 10 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 60 and status_process_type_code = 52 and fss_status_code is null then 'Cancellation_in_55'
+                                 when status_request_type_code = 60 and status_process_type_code = 53 and fss_status_code is null and edf_status_code is null then 'Cancellation_in_55'
+                                 when status_request_type_code = 60 and status_process_type_code = 52 and fss_status_code is null and edf_status_code = 90 then 'Cancellation_in_55'
+                                 when status_request_type_code = 61 and status_process_type_code = 52 and fss_status_code is null and edf_status_code = 90 then 'Cancellation_in_55'
+
+
+
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code is null and edf_status_code is null and df_blank_status_type_code = 82 then 'Form_closed'
+                                 when status_request_type_code = 63 and status_process_type_code = 53 and fss_status_code = 10 and edf_status_code = 95 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 54 and fss_status_code = 40 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 60 and status_process_type_code = 52 and fss_status_code = 10 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code = 30 and edf_status_code = 92 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 50 and fss_status_code = 30 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code = 50 and edf_status_code = 94 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 50 and fss_status_code = 20 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 53 and fss_status_code = 50 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code = 50 and edf_status_code = 94 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 50 and fss_status_code = 10 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 53 and fss_status_code = 10 and edf_status_code = 94 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 50 and fss_status_code = 10 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 60 and status_process_type_code = 53 and fss_status_code = 10 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 54 and fss_status_code = 10 and edf_status_code = 94 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 53 and fss_status_code = 10 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 52 and fss_status_code = 20 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 52 and fss_status_code = 30 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 51 and fss_status_code = 10 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 51 and fss_status_code = 20 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 53 and fss_status_code = 20 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 53 and fss_status_code = 40 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code = 30 and edf_status_code = 93 then 'Closed_and_accepted_by_the_FSS'
+                                 when status_request_type_code = 63 and status_process_type_code = 53 and fss_status_code = 20 and edf_status_code = 95 then 'Synchronization'
+                                 when status_request_type_code = 60 and status_process_type_code = 52 and fss_status_code = 20 and edf_status_code = 94 then 'Synchronization'
+                                 when status_request_type_code = 60 and status_process_type_code = 54 and fss_status_code = 30 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 60 and status_process_type_code = 53 and fss_status_code = 20 and edf_status_code = 94 then 'Synchronization'
+                                 when status_request_type_code = 60 and status_process_type_code = 52 and fss_status_code = 10 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 53 and fss_status_code = 30 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code = 90 and edf_status_code = 95 then 'ELN_Canceled'
+                                 when status_request_type_code = 61 and status_process_type_code = 54 and fss_status_code = 20 and edf_status_code = 94 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 55 and fss_status_code = 90 and edf_status_code = 95 then 'Canceled'
+                                 when status_request_type_code = 63 and status_process_type_code = 53 and fss_status_code = 10 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 60 and status_process_type_code = 54 and fss_status_code = 10 and edf_status_code = 94 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 50 and fss_status_code = 20 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code = 10 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code = 10 and edf_status_code = 94 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code = 20 and edf_status_code = 94 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code = 20 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 53 and fss_status_code = 30 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 55 and fss_status_code = 90 and edf_status_code = 95 then 'ELN_Canceled'
+                                 when status_request_type_code = 61 and status_process_type_code = 54 and fss_status_code = 90 and edf_status_code = 95 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 53 and fss_status_code = 20 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code = 40 and edf_status_code = 94 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 52 and fss_status_code = 20 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 54 and fss_status_code = 10 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 53 and fss_status_code = 20 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 54 and fss_status_code = 20 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 53 and fss_status_code = 40 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 53 and fss_status_code = 10 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 52 and fss_status_code = 10 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 52 and fss_status_code = 10 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 53 and fss_status_code = 20 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code = 20 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 60 and status_process_type_code = 54 and fss_status_code = 10 and edf_status_code = 93 and date_end < current_date then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 51 and fss_status_code = 10 and edf_status_code = 93 and date_end < current_date then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 51 and fss_status_code = 10 and edf_status_code = 93 and date_end > current_date then 'Opened_and_adopted_by_the_FSS'
+                                 when status_request_type_code = 60 and status_process_type_code = 54 and fss_status_code = 10 and edf_status_code = 93 and date_end > current_date then 'Opened_and_adopted_by_the_FSS'
+                                 when status_request_type_code = 60 and status_process_type_code = 54 and fss_status_code = 10 and edf_status_code = 93 and date_end >= current_date then 'Opened_and_adopted_by_the_FSS'
+                                 when status_request_type_code = 63 and status_process_type_code = 54 and fss_status_code = 30 and edf_status_code = 93 then 'Closed_and_accepted_by_the_FSS'
+                                 when status_request_type_code = 61 and status_process_type_code = 52 and fss_status_code = 20 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 52 and fss_status_code = 10 and edf_status_code = 90 and edf_number is not null then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 53 and fss_status_code = 10 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 53 and fss_status_code = 20 and edf_status_code = 94 then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 52 and fss_status_code = 10 and edf_status_code = 90 and edf_number is null then 'Cancellation_in_55'
+                                 when status_request_type_code = 61 and status_process_type_code = 54 and fss_status_code = 20 and edf_status_code = 93 and date_end < current_date then 'Synchronization'
+                                 when status_request_type_code = 61 and status_process_type_code = 54 and fss_status_code = 20 and edf_status_code = 93 and date_end >= current_date then 'Extended_and_adopted_by_the_FSS'
+                                 when status_request_type_code = 61 and status_process_type_code = 54 and fss_status_code = 20 and edf_status_code = 93 and date_end > current_date then 'Extended_and_adopted_by_the_FSS'
+                                 when status_request_type_code = 61 and status_process_type_code = 51 and fss_status_code = 20 and edf_status_code = 93 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 52 and fss_status_code = 20 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 52 and fss_status_code = 20 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 63 and status_process_type_code = 52 and fss_status_code = 10 and edf_status_code = 90 then 'Synchronization'
+                                 when status_request_type_code = 60 and status_process_type_code = 54 and fss_status_code = 10 and edf_status_code = 90 then 'Synchronization'
+    END) as "Decision",
+                            df.id as DF,
+                            ed.id as edf,
+                            en.edf_number,
+                            df.patient_id,
+                            ddp.date_begin,
+                            ddp.date_end,
+                            ddp.is_delete,
+                            ds.status_request_type_code,
+                            ds.status_process_type_code,
+                            ed.fss_status_code,
+                            ed.edf_status_code,
+                            (SELECT trim(both '{}' from cast(xpath('//ns2:snils/text()', xml_view,
+                                                                   ARRAY [ARRAY ['ns2', 'http://www.fss.ru/integration/types/eln/mo/v01']]) AS TEXT)) AS snilsNew) as snils,
+                            (SELECT trim(both '{}' from cast(xpath('//ns1:SNILS/text()', xml_view,
+                                                                   ARRAY [ARRAY ['ns1', 'http://ru/ibs/fss/ln/ws/FileOperationsLn.wsdl']])
+
+                                AS TEXT)) AS snilsNew2) as snils2,
+                            ds.change_date_time,
+                            df.status_date
+                     from eln.df
+                              left join eln.df_status ds on df.id = ds.df_id
+                              left join eln.df_disable_period ddp on df.id = ddp.df_id
+                              left join eln.electronic_df ed on df.id = ed.df_id
+                              left join eln.edf_number en on ed.edf_number_id = en.id
+                              left join eln.df_blank db on df.id = db.df_id
+                              left join eln.df_blank_number dbn on db.df_blank_number_id = dbn.id
+                              left join eln.relatives r on df.id = r.df_id)
+select * from super_table st
+where st.change_date_time = st.status_date
+and (st.is_delete = false or st.is_delete is null)
+and "Decision" not in ('Extended_and_adopted_by_the_FSS', 'Opened_and_adopted_by_the_FSS', 'Form_closed', 'Archived')
+and st.patient_id = '$patient'
+order by date_begin DESC
+limit 1;
