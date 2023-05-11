@@ -12,11 +12,11 @@ from string import Template
 import zipfile
 
 # Jira configuration
-JIRA_SERVER = 'https://jira.mos.social'
-JIRA_USERNAME = 'Oskin.AA'
-JIRA_PASSWORD = 'hkJN7bVsNnhkJN7bVsNn'
+JIRA_SERVER = 'https://jira.social'
+JIRA_USERNAME = 'login'
+JIRA_PASSWORD = 'pass'
 
-JQL_QUERY = 'project = SICKCERT AND issuetype = Problem AND status = Open AND assignee in (ORasstrigina, Oskin.AA, Rudyk.VA, Dubrovina.OA, DobrodushnyjA, BogatovaEY) and  labels not in (РГ.ЭЛН)  ORDER BY priority DESC, updated DESC'
+JQL_QUERY = 'project ='
 
 HAR_EXTENSION = '.har'
 PNG_EXTENSION = '.png'
@@ -38,11 +38,11 @@ issues = jira.search_issues(JQL_QUERY)
 
 # Connect to the database
 conn = psycopg2.connect(
-    host="10.1.155.6",
-    port="5432",
-    database="eln",
-    user="itankovich",
-    password="xRVIUunR"
+    host="host",
+    port="port",
+    database="database",
+    user="user",
+    password="password"
 )
 
 # Create a cursor object
